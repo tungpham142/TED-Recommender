@@ -2,7 +2,6 @@ from flask import Flask, render_template, url_for, request
 from ted_engine import ted_engine
 import nltk
 
-nltk.download()
 app = Flask(__name__)
 ted = ted_engine()
 result = []
