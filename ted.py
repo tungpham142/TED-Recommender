@@ -21,7 +21,6 @@ def search_form():
 		length = len(result)
 	else:
 		length = 6
-
 	for i in range(length):
 		documents.append(result[i])
 
