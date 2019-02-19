@@ -1,10 +1,12 @@
 import math
 import pandas as pd
 import numpy
+import nltk
 from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 
+nltk.download()
 
 class ted_engine:
 	# Needed attributes
