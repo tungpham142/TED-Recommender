@@ -97,8 +97,10 @@
               <div class="row">
                 <div class="col-md-10 col-lg-8 mx-auto text-center">
                     <div class="form-group">
-                      <input type="text" name="search" class="form-control" id="search" placeholder="Search by anything"/>
-                      <p class="pt-3"><button id="searchbtn" class="btn btn-danger btn js-scroll px-4">Search</button></p>
+                      <form method="POST">
+                        <input name="search" class="form-control" id="search" placeholder="Search by anything"/>
+                        <p class="pt-3"><input type="submit" class="btn btn-danger btn js-scroll px-4" value="Search"/></p>
+                      </form>                  
                     </div>
                 </div>
               </div>
@@ -567,7 +569,16 @@
 -->
 
   <!--/ Section Blog Star /-->
+  {% if result| length > 0 %}
+  <section id="found" class="found-mf sect-pt4 route">
+  {% else %}
   <section id="found" class="found-mf sect-pt4 route" style="display:none">
+  {% endif %}
+  {% if scroll %}
+  <script>
+      document.location.hash = '#' + '{{ scroll }}';
+  </script>
+  {% endif %}
     <div class="container">
       <div class="row">
         <div class="col-sm-12">
