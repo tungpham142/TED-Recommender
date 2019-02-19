@@ -20,18 +20,20 @@ final_document = []
 weight_vectors = []
 
 for i in range(len(tedData)):
+	tokens = tokenizer.tokenize(tedData['title'][i])
 	# Add tokenize words to tokens
+	'''
 	tokens = tokenizer.tokenize(tedData['description'][i])
 	tokens += tokenizer.tokenize(tedData['main_speaker'][i])
 	tokens += tokenizer.tokenize(tedData['name'][i])
 	tokens += tokenizer.tokenize(tedData['title'][i])
-
+	
 	transcript = tedData['transcript'][i]	
 	if(isinstance(transcript, float) and  math.isnan(transcript)):
 		transcript = ''
 
 	tokens += tokenizer.tokenize(transcript)
-
+	'''
 	# Remove stop words
 	final_tokens = []
 
@@ -52,9 +54,21 @@ for document in final_document:
 			weight_vector[term] = weight
 
 	weight_vectors.append(weight_vector)
+print(weight_vectors)	
 
-print(weight_vectors)
+# construct posting lists
+posting_lists = {}
+for i in range(len(weight_vectors)):
+	document = weight_vectors[i]
+	for token in document:
+		if token not in posting_lists:
+			posting_lists[token] = [i, document[token]]
+		else:
+			posting_lists[token].append([i, document[token]])
 
+		#posting_lists[token] = sorted(posting_lists[token], key=lambda post: post[2], reverse=True)
+
+#print(posting_lists)
 
 
 
