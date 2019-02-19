@@ -46,15 +46,17 @@ for i in range(len(tedData)):
 for document in final_document:
 	weight_vector = {}
 	for term in document:
-		if term not in weight_vector:
+		if term not in weight_vector:			
 			tf = document.count(term)/len(document)
-			containing = sum(1 for document in final_document if term in document)
+			df = sum(1 for document in final_document if term in document)
+			n = len(final_document)
+			'''
 			idf = math.log(len(final_document) / (1 + containing))
-			weight = tf * idf
+			'''
+			weight = (1 + math.log10(tf)) * (math.log10(n/df))
 			weight_vector[term] = weight
 
 	weight_vectors.append(weight_vector)
-print(weight_vectors)	
 
 # construct posting lists
 posting_lists = {}
@@ -62,13 +64,33 @@ for i in range(len(weight_vectors)):
 	document = weight_vectors[i]
 	for token in document:
 		if token not in posting_lists:
-			posting_lists[token] = [i, document[token]]
-		else:
-			posting_lists[token].append([i, document[token]])
+			posting_lists[token] = []
+		posting_lists[token].append([i, document[token]])
+		posting_lists[token] = sorted(posting_lists[token], key=lambda x: x[1], reverse=True)
 
-		#posting_lists[token] = sorted(posting_lists[token], key=lambda post: post[2], reverse=True)
+query = ('Smoking is really dangerous')
 
-#print(posting_lists)
+q = tokenizer.tokenize(query)
+tokens = []
+query_weight = {}
+for t in q:
+	t = t.lower()
+	if t not in stops:
+		t = stemmer.stem(t) 
+		tokens.append(t)
 
+for term in tokens:
+	if term not in query_weight:
+		tf = tokens.count(term) / len(tokens)
+		w = (1 + math.log10(tf))
+		query_weight[term] = w
 
-
+sim = {}
+for term in query_weight:
+	if term in posting_lists:
+		for post in posting_lists[term]:
+			document = post[0]
+			if document not in sim:
+				sim[document] = 0
+			sim[document] += post[1] * query_weight[term]
+sim = sorted(sim, key=sim.get, reverse=True)
