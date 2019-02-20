@@ -29,7 +29,7 @@ class ted_engine:
 		for i in range(len(tedData)):
 			tokens = tokenizer.tokenize(tedData['title'][i])
 			# Add tokenize words to tokens
-			'''
+
 			tokens = tokenizer.tokenize(tedData['description'][i])
 			tokens += tokenizer.tokenize(tedData['main_speaker'][i])
 			tokens += tokenizer.tokenize(tedData['name'][i])
@@ -40,7 +40,7 @@ class ted_engine:
 				transcript = ''
 
 			tokens += tokenizer.tokenize(transcript)
-			'''
+			
 			# Remove stop words
 			final_tokens = []
 
