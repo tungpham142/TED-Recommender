@@ -33,14 +33,13 @@ class ted_engine:
 			tokens = tokenizer.tokenize(tedData['description'][i])
 			tokens += tokenizer.tokenize(tedData['main_speaker'][i])
 			tokens += tokenizer.tokenize(tedData['name'][i])
-			tokens += tokenizer.tokenize(tedData['title'][i])
-			
+			'''			
 			transcript = tedData['transcript'][i]	
 			if(isinstance(transcript, float) and  math.isnan(transcript)):
 				transcript = ''
 
 			tokens += tokenizer.tokenize(transcript)
-			
+			'''
 			# Remove stop words
 			final_tokens = []
 
