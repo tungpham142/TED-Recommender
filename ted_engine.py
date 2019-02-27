@@ -28,21 +28,18 @@ class ted_engine:
 
 		for i in range(len(tedData)):
 			tokens = tokenizer.tokenize(tedData['title'][i])
-			# Add tokenize words to tokens
-
-			tokens = tokenizer.tokenize(tedData['description'][i])
+			tokens += tokenizer.tokenize(tedData['description'][i])
 			tokens += tokenizer.tokenize(tedData['main_speaker'][i])
 			tokens += tokenizer.tokenize(tedData['name'][i])
-			'''			
+			
 			transcript = tedData['transcript'][i]	
 			if(isinstance(transcript, float) and  math.isnan(transcript)):
 				transcript = ''
 
 			tokens += tokenizer.tokenize(transcript)
-			'''
+
 			# Remove stop words
 			final_tokens = []
-
 			for token in tokens: 
 				token = token.lower()
 				if token not in stops:
@@ -59,7 +56,7 @@ class ted_engine:
 					'''
 					idf = math.log(len(final_document) / (1 + containing))
 					'''
-					weight = (1 + math.log10(tf)) * (math.log10(n/df))
+					weight = tf * math.log(n/df)
 					weight_vector[term] = weight
 
 			weight_vectors.append(weight_vector)
@@ -72,7 +69,6 @@ class ted_engine:
 					posting_lists[token] = []
 				posting_lists[token].append([i, document[token]])
 				posting_lists[token] = sorted(posting_lists[token], key=lambda x: x[1], reverse=True)
-
 	def search(self, query):
 		q = self.tokenizer.tokenize(query)
 		tokens = []
@@ -86,8 +82,7 @@ class ted_engine:
 		for term in tokens:
 			if term not in query_weight:
 				tf = tokens.count(term) / len(tokens)
-				w = (1 + math.log10(tf))
-				query_weight[term] = w
+				query_weight[term] = tf
 
 		sim = {}
 		for term in query_weight:
@@ -98,4 +93,4 @@ class ted_engine:
 						sim[document] = 0
 					sim[document] += post[1] * query_weight[term]
 		sim = sorted(sim, key=sim.get, reverse=True)
-		return sim
+		return sim 

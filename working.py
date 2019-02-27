@@ -20,13 +20,9 @@ weight_vectors = []
 
 for i in range(len(tedData)):
 	tokens = tokenizer.tokenize(tedData['title'][i])
-	# Add tokenize words to tokens
+	tokens += tokenizer.tokenize(tedData['description'][i])
+	#tokens += tokenizer.tokenize(tedData['main_speaker'][i])
 	'''
-	tokens = tokenizer.tokenize(tedData['description'][i])
-	tokens += tokenizer.tokenize(tedData['main_speaker'][i])
-	tokens += tokenizer.tokenize(tedData['name'][i])
-	tokens += tokenizer.tokenize(tedData['title'][i])
-	
 	transcript = tedData['transcript'][i]	
 	if(isinstance(transcript, float) and  math.isnan(transcript)):
 		transcript = ''
@@ -52,7 +48,7 @@ for document in final_document:
 			'''
 			idf = math.log(len(final_document) / (1 + containing))
 			'''
-			weight = (1 + math.log10(tf)) * (math.log10(n/df))
+			weight = tf * math.log(n/df)
 			weight_vector[term] = weight
 
 	weight_vectors.append(weight_vector)
@@ -66,8 +62,7 @@ for i in range(len(weight_vectors)):
 			posting_lists[token] = []
 		posting_lists[token].append([i, document[token]])
 		posting_lists[token] = sorted(posting_lists[token], key=lambda x: x[1], reverse=True)
-
-query = ('Smoking is really dangerous')
+query = ('string quartet plays')
 
 q = tokenizer.tokenize(query)
 tokens = []
@@ -81,8 +76,7 @@ for t in q:
 for term in tokens:
 	if term not in query_weight:
 		tf = tokens.count(term) / len(tokens)
-		w = (1 + math.log10(tf))
-		query_weight[term] = w
+		query_weight[term] = tf
 
 sim = {}
 for term in query_weight:
