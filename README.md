@@ -5,5 +5,5 @@ The mission is to implement Data Mining knowledge for a recommender system.
 
 
 Reference:
-Dataset: https://www.kaggle.com/rounakbanik/ted-talks
+Dataset: https://www.kaggle.com/rounakbanik/ted-talks \n
 Search feature built base on: https://nbviewer.jupyter.org/url/crystal.uta.edu/~cli/cse5334/ipythonnotebook/P1.ipynb
