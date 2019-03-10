@@ -21,7 +21,6 @@ class ted_engine:
 		tokenizer = self.tokenizer
 		stops = self.stops
 		stemmer = self.stemmer
-		total_words = self.total_words
 		final_document = self.final_document
 		weight_vectors = self.weight_vectors
 		posting_lists = self.posting_lists
@@ -53,9 +52,6 @@ class ted_engine:
 					tf = document.count(term)/len(document)
 					df = sum(1 for document in final_document if term in document)
 					n = len(final_document)
-					'''
-					idf = math.log(len(final_document) / (1 + containing))
-					'''
 					weight = tf * math.log(n/df)
 					weight_vector[term] = weight
 
