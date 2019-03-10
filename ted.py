@@ -35,4 +35,5 @@ def search_form():
 	return render_template('index.html', data = ted.tedData, result = documents, scroll='found', title = title, url = embed_url, description = description, author = author, search = True)
 
 if __name__ == '__main__':
-	app.run(debug=True)
+	#app.run(debug=True)
+	app.run(host="0.0.0.0", port="80")
