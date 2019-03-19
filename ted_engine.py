@@ -1,3 +1,8 @@
+# Core Engine for Ted-Recommneder Search feature
+# Perform search on given query using TF-IDF weight to return ranked documents
+# Return related documents not only by their titles, but by their contexts
+# The complete appication is hosted at Ted-Recommender.com
+
 import math
 import pandas as pd
 import numpy
