@@ -88,6 +88,21 @@ for c in categories:
 		Tct = text_in_c.count(term)
 		condprob[term][c] = (Tct + 1)/(len(text_in_c) + total_term)
 
-test = "Sir Ken Robinson makes an entertaining and profoundly moving case for creating an education system that nurtures (rather than undermines) creativity."	
+test = "Sir Ken Robinson makes an entertaining and profoundly  moving case for creating an education system that nurtures (rather than undermines) creativity."	
 
-term = tokenizer.tokenize(test)
+test_vocab = []
+terms = tokenizer.tokenize(test)
+for term in terms:
+	term = term.lower()
+	if term not in stops:
+		term = stemmer.stem(term)
+		test_vocab.append(term) 
+
+score = {}
+for c in categories:
+	score[c] = prior[c]
+	for term in test_vocab:
+		if term in condprob:
+			score[c] += condprob[term][c]
+
+print(score)
