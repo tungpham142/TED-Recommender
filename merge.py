@@ -1,8 +1,37 @@
 import pandas as pd
+import re
 
-file1 = pd.read_csv("ted_main.csv")
-file2 = pd.read_csv("transcripts.csv")
+def find_class(rates):
+	count = []
+	i = 5
+	while(i < len(rates)):
+		count.append(rates[i])
+		i = i + 6
 
-file3 = file1.merge(file2, on="url", how="outer")
+	maxVote = max(count)
+	index = count.index(maxVote) + 1
+	categoryID = int(rates[index*6 - 5])
+	print(categoryID)
 
-file3.to_csv("ted_data.csv")
+
+	while(categoryID > 10):
+		count[index-1] = -1
+		maxVote = max(count)
+		index = count.index(maxVote) + 1
+		categoryID = int(rates[index*6 - 5])
+
+
+tedData = pd.read_csv('ted_data.csv')
+
+ratings = tedData['ratings']
+
+for rating in ratings:
+	rating = rating.replace('\'', '')
+	rating = rating.replace('{', '')
+	rating = rating.replace('}', '')
+	rating = rating.replace('[', '')
+	rating = rating.replace(']', '')
+	rates = re.split(', |:', rating)
+
+	find_class(rates)
+
