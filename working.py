@@ -3,8 +3,24 @@ import pandas as pd
 from nltk.tokenize import RegexpTokenizer
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
+from collections import defaultdict
+	
+def count_document(document, c):
+	document_in_c = 0
+	for doc in document:
+		if c in doc:
+			document_in_c += 1
+	return document_in_c
 
-tedData = pd.read_csv('ted_data.csv')
+def concatenate_text(categories, document, c):
+	text_in_c = []
+	for i in range(len(document)):
+		if c in categories[i]:
+			text_in_c.extend(document[i])
+	
+	return text_in_c
+
+tedData = pd.read_csv('ted-data.csv')
 
 tokenizer = RegexpTokenizer(r'[a-zA-Z]+')
 
@@ -17,6 +33,14 @@ total_words = []
 final_document = []
 
 weight_vectors = []
+
+vocabulary = []
+
+categories = []
+
+prior = {}
+
+condprob = defaultdict(dict)
 
 for i in range(len(tedData)):
 	tokens = tokenizer.tokenize(tedData['title'][i])
@@ -35,55 +59,35 @@ for i in range(len(tedData)):
 	for token in tokens: 
 		token = token.lower()
 		if token not in stops:
-			final_tokens.append(stemmer.stem(token)) 
+			token = stemmer.stem(token)
+			final_tokens.append(token) 
+			if token not in vocabulary:
+				vocabulary.append(token)
 	final_document.append(final_tokens)
 
-for document in final_document:
-	weight_vector = {}
-	for term in document:
-		if term not in weight_vector:			
-			tf = document.count(term)/len(document)
-			df = sum(1 for document in final_document if term in document)
-			n = len(final_document)
-			'''
-			idf = math.log(len(final_document) / (1 + containing))
-			'''
-			weight = tf * math.log(n/df)
-			weight_vector[term] = weight
 
-	weight_vectors.append(weight_vector)
+total_document = len(final_document)
 
-# construct posting lists
-posting_lists = {}
-for i in range(len(weight_vectors)):
-	document = weight_vectors[i]
-	for token in document:
-		if token not in posting_lists:
-			posting_lists[token] = []
-		posting_lists[token].append([i, document[token]])
-		posting_lists[token] = sorted(posting_lists[token], key=lambda x: x[1], reverse=True)
-query = ('string quartet plays')
+total_term = len(vocabulary)
 
-q = tokenizer.tokenize(query)
-tokens = []
-query_weight = {}
-for t in q:
-	t = t.lower()
-	if t not in stops:
-		t = stemmer.stem(t) 
-		tokens.append(t)
+ratings = tedData['ratings']
 
-for term in tokens:
-	if term not in query_weight:
-		tf = tokens.count(term) / len(tokens)
-		query_weight[term] = tf
+for rating in ratings:
+	if rating not in categories:
+		categories.append(rating)
 
-sim = {}
-for term in query_weight:
-	if term in posting_lists:
-		for post in posting_lists[term]:
-			document = post[0]
-			if document not in sim:
-				sim[document] = 0
-			sim[document] += post[1] * query_weight[term]
-sim = sorted(sim, key=sim.get, reverse=True)
+for c in categories:
+	# Count how many documents are in class c
+	document_in_c = count_document(ratings, c)
+	prior[c] = document_in_c/float(total_document)
+	# Concatenate all the text of class c in one list
+	text_in_c = concatenate_text(ratings, final_document, c)
+
+	for term in vocabulary:
+		# Count how many term t are in class c
+		Tct = text_in_c.count(term)
+		condprob[term][c] = (Tct + 1)/(len(text_in_c) + total_term)
+
+test = "Sir Ken Robinson makes an entertaining and profoundly moving case for creating an education system that nurtures (rather than undermines) creativity."	
+
+term = tokenizer.tokenize(test)
