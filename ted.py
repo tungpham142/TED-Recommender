@@ -11,29 +11,37 @@ def home():
 	return render_template('index.html', data = ted.tedData, result = result, search = False)
 
 @app.route("/", methods=['POST'])
-def search_form():
-	search = request.form['search']
-	result = ted.search(search)
-	documents = []
-	embed_url = []
+def process():
+	# Perform search
+	if(request.form['btn-clicked'] == "Search"):
+		search = request.form['search']
+		result = ted.search(search)
+		documents = []
+		embed_url = []
 
-	if(len(result) < 6):
-		length = len(result)
-	else:
-		length = 6
-	for i in range(length):
-		documents.append(result[i])
+		if(len(result) < 6):
+			length = len(result)
+		else:
+			length = 6
+		for i in range(length):
+			documents.append(result[i])
 
-	title = list(ted.tedData['title'][documents])
-	url = list(ted.tedData['url'][documents])
-	description = list(ted.tedData['description'][documents])
-	author = list(ted.tedData['main_speaker'][documents])
+		title = list(ted.tedData['title'][documents])
+		url = list(ted.tedData['url'][documents])
+		description = list(ted.tedData['description'][documents])
+		author = list(ted.tedData['main_speaker'][documents])
 
-	for link in url:
-		embed_url.append(link.replace("www", "embed", 1))
+		for link in url:
+			embed_url.append(link.replace("www", "embed", 1))
 
-	return render_template('index.html', data = ted.tedData, result = documents, scroll='found', title = title, url = embed_url, description = description, author = author, search = True)
+		return render_template('index.html', data = ted.tedData, \
+			result = documents, scroll='found', title = title, url = embed_url, \
+			description = description, author = author, search = True)
+	
+	if(request.form['btn'] == "Classify"):
+		classify = request.form['classify']
+		classification = ted.classify(classify)
 
 if __name__ == '__main__':
-	#app.run(debug=True)
-	app.run(host="0.0.0.0", port="80")
+	app.run(debug=True)
+	#app.run(host="0.0.0.0", port="80")
