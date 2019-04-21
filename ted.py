@@ -13,8 +13,9 @@ def home():
 @app.route("/", methods=['POST'])
 def process():
 	# Perform search
-	if(request.form['btn-clicked'] == "Search"):
-		search = request.form['search']
+	
+	search = search = request.form.get('search')
+	if(search != None):
 		result = ted.search(search)
 		documents = []
 		embed_url = []
@@ -37,10 +38,17 @@ def process():
 		return render_template('index.html', data = ted.tedData, \
 			result = documents, scroll='found', title = title, url = embed_url, \
 			description = description, author = author, search = True)
-	
-	if(request.form['btn'] == "Classify"):
-		classify = request.form['classify']
+
+	classify = search = request.form.get('classify')
+	categories = []
+	percentage = []
+	if(classify != None):
 		classification = ted.classify(classify)
+		for c in classification:
+			categories.append(c)
+			percentage.append(classification[c])
+	return render_template('index.html', scroll='classified', title = title, categories = categories,\
+		percentage = percentage, search = False)
 
 if __name__ == '__main__':
 	app.run(debug=True)

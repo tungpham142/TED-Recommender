@@ -168,8 +168,7 @@ class ted_engine:
 
 		total_score = sum(score.values())
 		print(total_score)
-		classification = []
+		classification = {}
 		for c in sorted(score, key=score.get, reverse=True):
-			classification.append(c)
-			classification[c].append(score[c]/float(total_score))
+			classification[c]= score[c]/float(total_score)
 		return classification
