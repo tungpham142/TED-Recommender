@@ -13,7 +13,6 @@ def home():
 @app.route("/", methods=['POST'])
 def process():
 	# Perform search
-	
 	search = search = request.form.get('search')
 	if(search != None):
 		result = ted.search(search)
@@ -46,10 +45,10 @@ def process():
 		classification = ted.classify(classify)
 		for c in classification:
 			categories.append(c)
-			percentage.append(classification[c])
-	return render_template('index.html', scroll='classified', title = title, categories = categories,\
-		percentage = percentage, search = False)
+			percentage.append(round(classification[c] * 100, 2))
+		return render_template('index.html', scroll='classification', categories = categories,\
+			percentage = percentage, classification = classification, search = False)
 
 if __name__ == '__main__':
-	app.run(debug=True)
-	#app.run(host="0.0.0.0", port="80")
+	#app.run(debug=True)
+	app.run(host="0.0.0.0", port="80")

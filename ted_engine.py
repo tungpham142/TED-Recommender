@@ -1,6 +1,7 @@
 # Core Engine for Ted-Recommneder Search feature
 # Perform search on given query using TF-IDF weight to return ranked documents
 # Return related documents not only by their titles, but by their contexts
+# Perfrom classification on given query using Naive Bayes to returned belonged classes and its percentage
 # The complete appication is hosted at Ted-Recommender.com
 
 import math
@@ -27,7 +28,7 @@ def concatenate_text(categories, document, c):
 
 class ted_engine:
 	# Needed attributes
-	tedData = pd.read_csv('ted_data.csv')
+	tedData = pd.read_csv('ted-data.csv')
 	tokenizer = RegexpTokenizer(r'[a-zA-Z]+')
 	stops = stopwords.words('english')
 	stemmer = PorterStemmer()
@@ -55,7 +56,6 @@ class ted_engine:
 
 		for i in range(len(tedData)):
 			tokens = tokenizer.tokenize(tedData['title'][i])
-			'''
 			tokens += tokenizer.tokenize(tedData['description'][i])
 			tokens += tokenizer.tokenize(tedData['main_speaker'][i])
 			tokens += tokenizer.tokenize(tedData['name'][i])
@@ -66,7 +66,6 @@ class ted_engine:
 
 			tokens += tokenizer.tokenize(transcript)
 
-			'''
 			# Remove stop words
 			final_tokens = []
 			for token in tokens: 
@@ -78,26 +77,26 @@ class ted_engine:
 						vocabulary.append(token)
 			final_document.append(final_tokens)
 
-		#for document in final_document:
-		#	weight_vector = {}
-		#	for term in document:
-		#		if term not in weight_vector:			
-		#			tf = document.count(term)/len(document)
-		#			df = sum(1 for document in final_document if term in document)
-		#			n = len(final_document)
-		#			weight = tf * math.log(n/df)
-		#			weight_vector[term] = weight
+		for document in final_document:
+			weight_vector = {}
+			for term in document:
+				if term not in weight_vector:			
+					tf = document.count(term)/len(document)
+					df = sum(1 for document in final_document if term in document)
+					n = len(final_document)
+					weight = tf * math.log(n/df)
+					weight_vector[term] = weight
 
-		#	weight_vectors.append(weight_vector)
+			weight_vectors.append(weight_vector)
 
 		# construct posting lists
-		#for i in range(len(weight_vectors)):
-		#	document = weight_vectors[i]
-		#	for token in document:
-		#		if token not in posting_lists:
-		#			posting_lists[token] = []
-		#		posting_lists[token].append([i, document[token]])
-		#		posting_lists[token] = sorted(posting_lists[token], key=lambda x: x[1], reverse=True)
+		for i in range(len(weight_vectors)):
+			document = weight_vectors[i]
+			for token in document:
+				if token not in posting_lists:
+					posting_lists[token] = []
+				posting_lists[token].append([i, document[token]])
+				posting_lists[token] = sorted(posting_lists[token], key=lambda x: x[1], reverse=True)
 
 		# construct conditional prob. for naive bayes
 		
@@ -167,7 +166,6 @@ class ted_engine:
 
 
 		total_score = sum(score.values())
-		print(total_score)
 		classification = {}
 		for c in sorted(score, key=score.get, reverse=True):
 			classification[c]= score[c]/float(total_score)
