@@ -30,13 +30,14 @@ def process():
 		url = list(ted.tedData['url'][documents])
 		description = list(ted.tedData['description'][documents])
 		author = list(ted.tedData['main_speaker'][documents])
+		categories = list(ted.tedData['ratings'][documents])
 
 		for link in url:
 			embed_url.append(link.replace("www", "embed", 1))
 
 		return render_template('index.html', data = ted.tedData, \
 			result = documents, scroll='found', title = title, url = embed_url, \
-			description = description, author = author, search = True)
+			description = description, author = author, categories = categories, search = True)
 
 	classify = search = request.form.get('classify')
 	categories = []

@@ -79,26 +79,26 @@ class ted_engine:
 						vocabulary.append(token)
 			final_document.append(final_tokens)
 
-		# for document in final_document:
-		# 	weight_vector = {}
-		# 	for term in document:
-		# 		if term not in weight_vector:			
-		# 			tf = document.count(term)/len(document)
-		# 			df = sum(1 for document in final_document if term in document)
-		# 			n = len(final_document)
-		# 			weight = tf * math.log(n/df)
-		# 			weight_vector[term] = weight
+		for document in final_document:
+		 	weight_vector = {}
+		 	for term in document:
+		 		if term not in weight_vector:			
+		 			tf = document.count(term)/len(document)
+		 			df = sum(1 for document in final_document if term in document)
+		 			n = len(final_document)
+		 			weight = tf * math.log(n/df)
+		 			weight_vector[term] = weight
 
-		# 	weight_vectors.append(weight_vector)
+		 	weight_vectors.append(weight_vector)
 
-		# # construct posting lists
-		# for i in range(len(weight_vectors)):
-		# 	document = weight_vectors[i]
-		# 	for token in document:
-		# 		if token not in posting_lists:
-		# 			posting_lists[token] = []
-		# 		posting_lists[token].append([i, document[token]])
-		# 		posting_lists[token] = sorted(posting_lists[token], key=lambda x: x[1], reverse=True)
+		 # construct posting lists
+		for i in range(len(weight_vectors)):
+		 	document = weight_vectors[i]
+		 	for token in document:
+		 		if token not in posting_lists:
+		 			posting_lists[token] = []
+		 		posting_lists[token].append([i, document[token]])
+		 		posting_lists[token] = sorted(posting_lists[token], key=lambda x: x[1], reverse=True)
 
 		# construct conditional prob. for naive bayes
 		total_document = len(final_document)
