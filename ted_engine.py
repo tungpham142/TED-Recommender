@@ -56,11 +56,14 @@ class ted_engine:
 
 		for i in range(len(tedData)):
 			tokens = tokenizer.tokenize(tedData['title'][i])
-			#tokens += tokenizer.tokenize(tedData['description'][i])
-			'''
+			tokens += tokenizer.tokenize(tedData['description'][i])
 			tokens += tokenizer.tokenize(tedData['main_speaker'][i])
 			tokens += tokenizer.tokenize(tedData['name'][i])
-			
+			token += tokenizer.tokenize(tedData['ratings'][i])
+			token += tokenizer.tokenize(tedData['tags'][i])
+			tokenizer.tokenize(tedData['speaker_occupation'][i])		
+
+			'''
 			transcript = tedData['transcript'][i]	
 			if(isinstance(transcript, float) and  math.isnan(transcript)):
 				transcript = ''
