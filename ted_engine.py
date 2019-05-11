@@ -56,7 +56,7 @@ class ted_engine:
 
 		for i in range(len(tedData)):
 			tokens = tokenizer.tokenize(tedData['title'][i])
-			tokens += tokenizer.tokenize(tedData['description'][i])
+			#tokens += tokenizer.tokenize(tedData['description'][i])
 			'''
 			tokens += tokenizer.tokenize(tedData['main_speaker'][i])
 			tokens += tokenizer.tokenize(tedData['name'][i])
@@ -147,6 +147,7 @@ class ted_engine:
 						sim[document] = 0
 					sim[document] += post[1] * query_weight[term]
 		sim = sorted(sim, key=sim.get, reverse=True)
+		print(sim)
 		return sim 
 
 	def classify(self, query):
@@ -171,3 +172,31 @@ class ted_engine:
 		for c in sorted(score, key=score.get, reverse=True):
 			classification[c]= score[c]/float(total_score)
 		return classification
+
+	def recommend(self, docId, query):
+		q = self.tokenizer.tokenize(query)
+		tokens = []
+		query_weight = {}
+		for t in q:
+			t = t.lower()
+			if t not in self.stops:
+				t = self.stemmer.stem(t) 
+				tokens.append(t)
+
+		for term in tokens:
+			if term not in query_weight:
+				tf = tokens.count(term) / len(tokens)
+				query_weight[term] = tf
+
+		sim = {}
+		for term in query_weight:
+			if term in self.posting_lists:
+				for post in self.posting_lists[term]:
+					document = post[0]
+					if document not in sim:
+						sim[document] = 0
+					sim[document] += post[1] * query_weight[term]
+		sim.pop(docId)
+		sim = sorted(sim, key=sim.get, reverse=True)
+		print(sim)
+		return sim 
