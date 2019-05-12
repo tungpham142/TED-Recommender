@@ -61,15 +61,7 @@ class ted_engine:
 			tokens += tokenizer.tokenize(tedData['name'][i])
 			token += tokenizer.tokenize(tedData['ratings'][i])
 			token += tokenizer.tokenize(tedData['tags'][i])
-			tokenizer.tokenize(tedData['speaker_occupation'][i])		
-
-			'''
-			transcript = tedData['transcript'][i]	
-			if(isinstance(transcript, float) and  math.isnan(transcript)):
-				transcript = ''
-
-			tokens += tokenizer.tokenize(transcript)
-			'''
+			token += tokenizer.tokenize(tedData['speaker_occupation'][i])		
 
 			# Remove stop words
 			final_tokens = []
