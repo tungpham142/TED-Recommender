@@ -23,7 +23,8 @@ Simply go to the ted-recommender diectory <br />
 Run the command inside your terminal: python ted.py <br />
 Your application should be up running at http://localhost:5000 <br />
 You can use your browser to go to this address and start using the application. <br />
-There is a search field for finding your favorite Ted-talks. There is also a recommend button under each result's videos. <br />
+T
+here is a search field for finding your favorite Ted-talks. There is also a recommend button under each result's videos. <br />
 Finally, the classification feature helps you to classify any Ted-talks contents that you can think of. <br />
 The mission is to apply basic concept on Data Mining and Machine Learning to develop a simple search, classification, and recommendation system. 
 
