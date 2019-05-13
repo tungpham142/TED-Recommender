@@ -1,7 +1,7 @@
 # TED-Recommender
 [http://Ted-recommender.com](http://3.17.150.50)
 Web Application built for reseach purpose. 
-The mission is to apply basic concept on Data Mining and Machine Learning to develop a simple search, classification, and recommendation system. <br /
+The mission is to apply basic concept on Data Mining and Machine Learning to develop a simple search, classification, and recommendation system. <br/>
 
 
 The whole web application consists of 3 features *search, classification, and recommendation* on a dataset of Ted-Talks videos from beginning to September 2017. <br />
@@ -19,7 +19,8 @@ If not you can easily install python 3 and pip tool to install the needed librar
 **Step 2:** Execute the application:<br />
 
 Before run, make sure you change the app.run value from host="0.0.0.0", port="80" to nothing as default. The host and port are only for when you run the application on a host.<br />
-Simply run the command inside your terminal: python ted.py <br />
+Simply go to the ted-recommender diectory <br />
+Run the command inside your terminal: python ted.py <br />
 Your application should be up running at http://localhost:5000 <br />
 You can use your browser to go to this address and start using the application. <br />
 There is a search field for finding your favorite Ted-talks. There is also a recommend button under each result's videos. <br />
