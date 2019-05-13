@@ -25,6 +25,7 @@ You can use your browser to go to this address and start using the application. 
 
 <u>**Reference:**</u><br />
 Dataset: https://www.kaggle.com/rounakbanik/ted-talks <br />
+
 Search feature built base on: https://nbviewer.jupyter.org/url/crystal.uta.edu/~cli/cse5334/ipythonnotebook/P1.ipynb
 
 Text classification and Naïve Bayes (<https://nlp.stanford.edu/IR-book/pdf/13bayes.pdf>).Recommender 
