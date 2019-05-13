@@ -28,6 +28,8 @@ There is a search field for finding your favorite Ted-talks. There is also a rec
 Finally, the classification feature helps you to classify any Ted-talks contents that you can think of. <br />
 The mission is to apply basic concept on Data Mining and Machine Learning to develop a simple search, classification, and recommendation system. 
 
+For more details about how these features are implemented, please go to my homepage: https://tungpv.com
+
 
 <u>**Reference:**</u><br />
 Dataset: https://www.kaggle.com/rounakbanik/ted-talks <br />
