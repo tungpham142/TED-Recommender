@@ -10,6 +10,7 @@ All there features are developed inside **ted_engine.py** file, which is initial
 
 To replication and got the application up running in localhost, there are just some simple steps next to be done.
 After retrieving the project to a local machine 
+
 **Step 1:**  Prepare the run environment:
 
 Because the application is written using python 3.7.0 with few necessary libraries. Make sure local machine have already installed python 3, flask, numpy, pandas, and nltk libraries. If not you can easily install python 3 and pip tool to install the needed libraries (https://realpython.com/installing-python/).
@@ -22,7 +23,7 @@ You can use your browser to go to this address and start using the application. 
 
 
 
-<u>**Reference: **</u><br />
+<u>**Reference:**</u><br />
 Dataset: https://www.kaggle.com/rounakbanik/ted-talks <br />
 Search feature built base on: https://nbviewer.jupyter.org/url/crystal.uta.edu/~cli/cse5334/ipythonnotebook/P1.ipynb
 
