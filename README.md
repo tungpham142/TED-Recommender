@@ -1,5 +1,5 @@
 # TED-Recommender
-[http://Ted-recommender.com](http://3.17.150.50)</br>
+[http://Ted-recommender.com](http://3.17.150.50)
 Web Application built for reseach purpose. 
 The mission is to apply basic concept on Data Mining and Machine Learning to develop a simple search, classification, and recommendation system. 
 
